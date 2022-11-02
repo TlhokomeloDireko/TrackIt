@@ -21,6 +21,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool result = false;
+  int indexClicked = 0;
+
+  // create a list of pages
+  final pages = [const Center()];
 
   //create list of data for stepper!!
   List<step.Step> steps = [
@@ -89,6 +93,28 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+            ),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.track_changes,
+            ),
+            label: "Live Track",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.support_agent_outlined,
+            ),
+            label: "Support",
+          ),
+        ],
+      ),
       body: ListView(
         children: [content()],
       ),
