@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   int indexClicked = 0;
 
   // create a list of pages
-  final pages = [const Center()];
+  final pages = [];
 
   //create list of data for stepper!!
   List<step.Step> steps = [
@@ -94,6 +94,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        type: BottomNavigationBarType.fixed,
+        currentIndex: indexClicked,
+        onTap: (value) {
+          setState(() {
+            indexClicked = value;
+          });
+        },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
@@ -113,15 +122,37 @@ class _HomePageState extends State<HomePage> {
             ),
             label: "Support",
           ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+            ),
+            label: "Profile",
+          ),
         ],
       ),
       body: ListView(
-        children: [content()],
+        children: [
+          pagesList(),
+        ],
       ),
     );
   }
 
-  Widget content() {
+  Widget pagesList() {
+    if (indexClicked == 0) {
+      return home();
+    } else if (indexClicked == 1) {
+      return liveTrack();
+    } else if (indexClicked == 2) {
+      return liveTrack();
+    } else if (indexClicked == 3) {
+      return liveTrack();
+    } else {
+      return const Icon(Icons.error);
+    }
+  }
+
+  Widget home() {
     return Column(
       children: [
         Container(
@@ -151,12 +182,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        body(),
+        homeBody(),
       ],
     );
   }
 
-  Widget body() {
+  Widget homeBody() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -250,6 +281,12 @@ class _HomePageState extends State<HomePage> {
                 child: Lottie.network(
                     "https://assets2.lottiefiles.com/packages/lf20_t24tpvcu.json")),
       ],
+    );
+  }
+
+  Widget liveTrack() {
+    return Column(
+      children: const [],
     );
   }
 }
