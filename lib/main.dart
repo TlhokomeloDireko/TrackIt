@@ -1,7 +1,9 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vertical_stepper_null_safety/vertical_stepper_null_safety.dart';
 import 'package:vertical_stepper_null_safety/vertical_stepper_null_safety.dart'
@@ -23,8 +25,13 @@ class _HomePageState extends State<HomePage> {
   bool result = false;
   int indexClicked = 0;
 
-  // create a list of pages
-  final pages = [];
+  // google map\
+  late GoogleMapController mapController;
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   //create list of data for stepper!!
   List<step.Step> steps = [
@@ -120,7 +127,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
               Icons.home,
             ),
-            label: "Home",
+            label: "Package Info",
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -133,12 +140,6 @@ class _HomePageState extends State<HomePage> {
               Icons.support_agent_outlined,
             ),
             label: "Support",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            label: "Profile",
           ),
         ],
       ),
@@ -156,9 +157,7 @@ class _HomePageState extends State<HomePage> {
     } else if (indexClicked == 1) {
       return liveTrack();
     } else if (indexClicked == 2) {
-      return liveTrack();
-    } else if (indexClicked == 3) {
-      return liveTrack();
+      return support();
     } else {
       return const Icon(Icons.error);
     }
@@ -168,7 +167,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Container(
-          height: 300,
+          height: 200,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -183,11 +182,25 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   const Image(
-                    image: AssetImage("assets/images.jpeg"),
+                    width: 150,
+                    image: AssetImage("assets/logo.png"),
                   ),
-                  Text(
-                    "Parcel Tracker",
-                    style: GoogleFonts.montserrat(fontSize: 30),
+                  Text.rich(
+                    TextSpan(
+                        text: "Deli",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 35,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.blue),
+                        children: [
+                          TextSpan(
+                            text: "vado",
+                            style: GoogleFonts.montserrat(
+                                color: Colors.red,
+                                fontSize: 35,
+                                fontWeight: FontWeight.w800),
+                          )
+                        ]),
                   ),
                 ],
               ),
@@ -204,34 +217,42 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
-          height: 50,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 35.0),
-          child: Text(
-            "Tracking Number :",
-            style: GoogleFonts.montserrat(fontSize: 16),
-          ),
-        ),
-        const SizedBox(
           height: 10,
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
+          padding: const EdgeInsets.only(left: 5.0),
+          child: ListTile(
+            title: Text(
+              "Tracking Number :",
+              style: GoogleFonts.montserrat(
+                  fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 1,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 height: 40,
                 width: 240,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 168, 168, 168),
+                  ),
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: const TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                child: TextField(
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(8),
+                  ],
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
-                    hintText: "e.g #123123798124",
+                    hintText: "Enter your tracking number",
                   ),
                 ),
               ),
@@ -297,6 +318,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget liveTrack() {
+    return SizedBox(
+      height: 900,
+      child: GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: _center,
+          zoom: 11.0,
+        ),
+      ),
+    );
+  }
+
+  Widget support() {
     return Column(
       children: const [],
     );
