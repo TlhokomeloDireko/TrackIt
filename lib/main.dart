@@ -9,8 +9,14 @@ import 'package:vertical_stepper_null_safety/vertical_stepper_null_safety.dart';
 import 'package:vertical_stepper_null_safety/vertical_stepper_null_safety.dart'
     as step;
 
+class ChatMessages {
+  String messageContent;
+  String messageType;
+  ChatMessages({required this.messageContent, required this.messageType});
+}
+
 void main() => runApp(const MaterialApp(
-      home: HomePage(),
+      home: SafeArea(child: HomePage()),
       debugShowCheckedModeBanner: false,
     ));
 
@@ -24,6 +30,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool result = false;
   int indexClicked = 0;
+  final dateTimeCurrent = DateTime.now();
 
   // google map\
   late GoogleMapController mapController;
@@ -109,6 +116,12 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
+  // messages list
+  List<ChatMessages> messages = [
+    ChatMessages(
+        messageContent: "Welcome to Support:", messageType: "receiver"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,9 +168,7 @@ class _HomePageState extends State<HomePage> {
     } else if (indexClicked == 1) {
       return liveTrack();
     } else if (indexClicked == 2) {
-      return ListView(
-        children: [support()],
-      );
+      return chatPage();
     } else {
       return const Icon(Icons.error);
     }
@@ -229,18 +240,15 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        const SizedBox(
-          height: 1,
-        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment: Alignment.bottomCenter,
-                height: 40,
-                width: 240,
+                alignment: Alignment.centerLeft,
+                height: 50,
+                width: 250,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: const Color.fromARGB(255, 168, 168, 168),
@@ -257,9 +265,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 30,
-              ),
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -269,6 +274,7 @@ class _HomePageState extends State<HomePage> {
                 child: const Icon(
                   Icons.search,
                   size: 35,
+                  color: Colors.blue,
                 ),
               ),
             ],
@@ -330,7 +336,141 @@ class _HomePageState extends State<HomePage> {
 
   Widget support() {
     return Column(
-      children: const [],
+      children: [
+        const SizedBox(
+          height: 50,
+        ),
+        Text(
+          "Welcome to Support",
+          style: GoogleFonts.montserrat(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        Container(
+          alignment: Alignment.topLeft,
+          width: 300,
+          height: 140,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+          ),
+          child: ListTile(
+            title: const Text(
+              "Welcome to Delivado support service. How may we assist you today.",
+            ),
+            subtitle: Text.rich(
+              TextSpan(
+                  style: GoogleFonts.montserrat(),
+                  text: "${dateTimeCurrent.hour}",
+                  children: [
+                    const TextSpan(
+                      text: ":",
+                    ),
+                    TextSpan(
+                      text: "${dateTimeCurrent.minute}",
+                    ),
+                  ]),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget chatPage() {
+    return Stack(
+      children: <Widget>[
+        ListView.builder(
+          itemCount: messages.length,
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Container(
+              padding: const EdgeInsets.only(
+                  left: 14, right: 14, top: 10, bottom: 10),
+              child: Align(
+                alignment: (messages[index].messageType == "receiver"
+                    ? Alignment.topLeft
+                    : Alignment.topRight),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: (messages[index].messageType == "receiver"
+                        ? Colors.grey.shade200
+                        : Colors.blue[200]),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    messages[index].messageContent,
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Container(
+            padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
+            height: 60,
+            width: double.infinity,
+            color: Colors.white,
+            child: Row(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                const Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                        hintText: "Write message...",
+                        hintStyle: TextStyle(color: Colors.black54),
+                        border: InputBorder.none),
+                  ),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                FloatingActionButton(
+                  onPressed: () {},
+                  backgroundColor: Colors.blue,
+                  elevation: 0,
+                  child: const Icon(
+                    Icons.send,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
