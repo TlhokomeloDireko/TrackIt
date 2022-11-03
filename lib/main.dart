@@ -28,63 +28,75 @@ class _HomePageState extends State<HomePage> {
 
   //create list of data for stepper!!
   List<step.Step> steps = [
-    const step.Step(
+    step.Step(
       shimmer: false,
       title: "Order Placed",
       iconStyle: Colors.green,
       content: Padding(
-        padding: EdgeInsets.only(left: 5),
+        padding: const EdgeInsets.only(left: 5),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text("2022/10/20 11:25 AM Order Created !!"),
+          child: Text(
+            "2022/10/20 11:25 AM Order Created !!",
+            style: GoogleFonts.montserrat(),
+          ),
         ),
       ),
     ),
-    const step.Step(
+    step.Step(
       shimmer: false,
       title: "Dispatch in Progress",
       iconStyle: Colors.green,
       content: Padding(
-        padding: EdgeInsets.only(left: 5),
+        padding: const EdgeInsets.only(left: 5),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text("2022/10/20 04:20 PM Parcel Read To Dispatch !!"),
+          child: Text(
+            "2022/10/20 04:20 PM Parcel Read To Dispatch !!",
+            style: GoogleFonts.montserrat(),
+          ),
         ),
       ),
     ),
-    const step.Step(
+    step.Step(
       shimmer: false,
       title: "Ready For Pickup",
       iconStyle: Colors.green,
       content: Padding(
-        padding: EdgeInsets.only(left: 5),
+        padding: const EdgeInsets.only(left: 5),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text("2022/10/21 10:30 AM Parcel Sorted !!"),
+          child: Text(
+            "2022/10/21 10:30 AM Parcel Sorted !!",
+            style: GoogleFonts.montserrat(),
+          ),
         ),
       ),
     ),
-    const step.Step(
+    step.Step(
       shimmer: false,
       title: "In Transit",
       iconStyle: Colors.green,
       content: Padding(
-        padding: EdgeInsets.only(left: 5),
+        padding: const EdgeInsets.only(left: 5),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text("2022/10/21 04:10 PM Parcel Arrived At Delivery Hub !!"),
+          child: Text(
+            "2022/10/21 04:10 PM Parcel Arrived At Delivery Hub !!",
+            style: GoogleFonts.montserrat(),
+          ),
         ),
       ),
     ),
-    const step.Step(
+    step.Step(
       shimmer: false,
       title: "Out For Delivery",
       iconStyle: Colors.blue,
       content: Padding(
-        padding: EdgeInsets.only(left: 5),
+        padding: const EdgeInsets.only(left: 5),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text(""),
+          child: Text("See Live Tracking", style: GoogleFonts.montserrat()),
         ),
       ),
     ),
@@ -209,7 +221,7 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             children: [
               Container(
-                height: 60,
+                height: 40,
                 width: 240,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -219,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
-                    hintText: "e.g #12515489665544",
+                    hintText: "e.g #123123798124",
                   ),
                 ),
               ),
