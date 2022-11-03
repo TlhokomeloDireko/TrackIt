@@ -143,21 +143,21 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          pagesList(),
-        ],
-      ),
+      body: pagesList(),
     );
   }
 
   Widget pagesList() {
     if (indexClicked == 0) {
-      return home();
+      return ListView(
+        children: [home()],
+      );
     } else if (indexClicked == 1) {
       return liveTrack();
     } else if (indexClicked == 2) {
-      return support();
+      return ListView(
+        children: [support()],
+      );
     } else {
       return const Icon(Icons.error);
     }
@@ -238,6 +238,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
+                alignment: Alignment.bottomCenter,
                 height: 40,
                 width: 240,
                 decoration: BoxDecoration(
@@ -248,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: TextField(
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(8),
+                    LengthLimitingTextInputFormatter(14),
                   ],
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -318,14 +319,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget liveTrack() {
-    return SizedBox(
-      height: 900,
-      child: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 11.0,
-        ),
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: _center,
+        zoom: 11.0,
       ),
     );
   }
