@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   // google map\
   late GoogleMapController mapController;
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  final LatLng _center = const LatLng(-28.4793, 24.6727);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
